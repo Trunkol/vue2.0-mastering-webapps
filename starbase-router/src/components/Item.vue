@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-4">
+    <div class="col-md-4" @click="switchItems">
         <div class="item-card">
             <div class="card-block">
                 <h4 class="card-title">
@@ -17,7 +17,23 @@
 
 <script>
 export default {
-    props: ['item']
+    props: ['passedItem', 'type'],
+    data() {
+        return {
+            item: {}
+        }
+    },
+    methods:{
+        switchItems() {
+            let random_id = Math.floor(Math.random() * 63) + 1
+            fetch(`https://swapi.co/api/${this.type}/${random_id}`, {method: 'GET'})
+            .then(response => response.json())
+            .then(json => this.item = json)
+        }
+    },
+    created() {
+        this.item = this.passedItem
+    }
 }
 </script>
 
